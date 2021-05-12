@@ -1,89 +1,79 @@
 <template>
   <h1> {{title}} </h1>
 
-  <div v-if="showModel">
-    <Model @close="toggleModel">
-        <h1>Modal 1</h1>
-        <p> model content</p>
-    </Model>
-    
-  </div>
+  <div id="main">
 
-    <div>
-      <Create/>
+    <div id="buttonsDiv">
+      <button class="button" @click.left="toggleCreate"><span>create page </span></button>
+      <button class="button" @click.left="toggleDelete"><span>delete page </span></button>
+      <button class="button" @click.left="toggleGet"><span>get page </span></button>
+      <button class="button" @click.left="toggleUpdate"><span>update page </span></button>
+
     </div>
 
+    <div class="createDiv" v-if="showCreatePage">
+      <Create>
+      </Create>
+    </div>
+    
+    <div v-if="showDeletePage">
+      <DeleteForm>
+      </DeleteForm>
+    </div>
 
-  <div v-if="showModelTwo">
-    <Model @close="toggleModelTwo">
-        <h1>Modal 2</h1>
-        <p> model content</p>
-    </Model>
+    <div v-if="showGetPage">
+      <GetForm>
+      </GetForm>
+    </div>
+
+    <div v-if="showUpdatePage">
+      <UpdateForm>
+      </UpdateForm>
+    </div>
+
   </div>
 
-  <!-- <button @click.left="toggleModel">open model ONE</button> -->
-  <!-- <button @click.left="toggleModelTwo">open model TWO</button> -->
-  <br>
-  <button @click.left="createBirthday">create birthday</button>
-  <button @click.left="deleteBirthday">delete birthday</button>
-  <button @click.left="updateBirthday">update birthday</button>
-  <button @click.left="getBirthday">get birthday</button>
-
-  <!-- <input type="text" ref="name"> -->
-  <!-- <button @click="handleClick">open</button> -->
 </template>
 
 <script>
 
 import Create from './components/CreateForm.vue'
-import Model from './components/Modal.vue'
+import GetForm from './components/GetForm.vue'
+import DeleteForm from './components/DeleteForm.vue'
+import UpdateForm from './components/UpdateForm.vue'
 const axios = require('axios').default;
-var cors = require('cors')
-
 
 export default {
   name: 'App',
-  components: { Model , Create}, 
+  components: { Create, GetForm, DeleteForm, UpdateForm}, 
   data() {
     return {
-      title: 'birthday',
+      title: 'BIRTHDAY SERVICE',
       showModel: false,
-      showModelTwo: false,
+      showCreatePage: false,
+      showGetPage: false,
+      showDeletePage: false,
+      showUpdatePage: false,
     }
   },
   methods: {
-    toggleModel() {
-      this.showModel = !this.showModel
+
+    toggleCreate() {
+      this.showCreatePage = !this.showCreatePage
     },
 
-    toggleModelTwo() {
-      console.log("second model")
-      this.showModelTwo = !this.showModelTwo
-    }, 
-
-
-    deleteBirthday() {
-        let id = "123"
-        axios.delete(`http://localhost:6060/birthday/${id}`).then(response => {console.log(response.data)})
-
+    toggleGet() {
+      this.showGetPage = !this.showGetPage
     },
 
-    updateBirthday() {
-        let id = 15
-        axios.put(`http://localhost:6060/birthday/${id}`, {"birthday": 1392420007}).then(response => {console.log(response.data)})
-
+    toggleDelete() {
+      this.showDeletePage = !this.showDeletePage
     },
 
-    getBirthday() {
-        let number = 123
-        axios.get(`http://localhost:6060/birthday/${number}`, cors()).then(response => {console.log(response.data)})
-
-    },
-
-    createBirthday() {
-        const person = {name: 'maya fisher', birthday: 1214428057, userId: "123"};
-        axios.post(`http://localhost:6060/birthday`, person).then(response => {console.log(response.data)})
+    toggleUpdate() {
+      this.showUpdatePage = !this.showUpdatePage
     }
+
   }
 }
 </script>
@@ -97,9 +87,71 @@ export default {
   color: #2c3e50;
   margin-top: 50px;
 }
+
 h1 {
   border-bottom: 1px solid #ddd;
   display: inline-block;
   padding-bottom: 10px;
 }
+
+#main {
+  display: flex;
+  flex-direction: row;
+}
+
+#buttonsDiv {
+  display: flex;
+  flex-direction: column;
+}
+
+#buttonsDiv button {
+  border-radius: 4px;
+  background-color: #0b6dff;
+  border: none;
+  color: #FFFFFF;
+  text-align: center;
+  font-size: 20px;
+  padding: 18px;
+  width: 200px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 5px;
+}
+
+#buttonsDiv button span {
+    cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
+}
+
+#buttonsDiv button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#buttonsDiv button:hover span {
+    padding-right: 25px;
+}
+
+.button span:after {
+  content: '\00bb';
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
+}
+
+#buttonsDiv button:hover span:after {
+  opacity: 1;
+  right: 0;
+}
+
+
 </style>
+

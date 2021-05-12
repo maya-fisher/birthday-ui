@@ -1,43 +1,96 @@
 <template>
-  <form @submit.prevent="handelSubmit">
-      <label>Name</label>
-      <input type="text" required v-model="name">
-      <label>ID</label>
-      <input type="id" required v-model="id">
-      <input type="date" required v-model="birthday">
+
+  <form id="createForm" @submit.prevent="handelSubmit">
+
+        <div v-if="showError" class="alert">
+            <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
+            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+        </div>
+
+        <label>Name</label>
+        <input type="text" required v-model="name">
+        <label>ID</label>
+        <input type="id" required v-model="id">
+        <label>Birthday</label>
+        <input type="date" required v-model="birthday">
         <div class="submit">
-        <button>create birthday</button>
-    </div>
+        <button id="createButton">create birthday</button>
+        </div>
+
+        <div v-if="user" class="user">
+            <h2>NEW BIRTHDAY</h2>
+            <label class="try">NAME: {{newName}}</label><br>
+            <label class="try">BIRTHDAY: {{newBirthday}}</label>
+        </div>
+
   </form>
 
 </template>
 
 <script>
+
+const axios = require('axios').default;
+
 export default {
     data() {
         return {
             name: '',
             id: '',
             birthday: '',
+            showError: false,
+            newName: '', 
+            newBirthday: '', 
+            user: false,
         }
     },
     methods: {
         handelSubmit() {
-            console.log({name: this.name, id: this.id, birthday: this.birthday})
-            console.log(typeof this.birthday)
-            let mydate
-        }
-    }
+            let dateArray = this.birthday.split("-");
+            let newDate = new Date( dateArray[0], dateArray[1] - 1, dateArray[2]);
+            let timestamp = Math.floor(newDate.getTime()/1000);
+            let user = {name: this.name, userId: this.id, birthday: timestamp};
+            let response = axios.post(`http://localhost:6060/birthday`, user)
+            .then(response => {
+                this.newBirthday = response.data.person.birthday;
+                let d = new Date(parseInt(this.newBirthday));
+                this.newBirthday = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
+                this.newName = response.data.person.name;
+                this.user = true;
+            })
+            .catch(err => {
+                this.showError = true;
+                console.log(`error:${err}`)
+            })
 
+        },
+     }
 }
 
 </script>
 
 <style>
+
+.user {
+    background: lightseagreen;
+    width: 130;
+    margin:50px auto;
+    text-align: left;
+    padding: 40px;
+    border-radius: 10px;
+    
+}
+
+.user:hover {
+    background: rgb(28, 153, 147);
+}
+.user label {
+    color: #2c3e50;
+}
+
+
 form {
-    max-width: 420px;
-    margin: 30px auto;
-    background: white;
+    width: 270px;
+    margin:-50px auto;
     text-align: left;
     padding: 40px;
     border-radius: 10px;
@@ -63,7 +116,11 @@ input {
     color: #555;
 }
 
-button {
+.submit {
+    text-align: center;
+}
+
+.submit button {
     background: #0b6dff;
     border: 0;
     padding: 10px 20px;
@@ -73,7 +130,41 @@ button {
     cursor: pointer;
 }
 
-.submit {
-    text-align: center;
+.error {
+    width: 100px;
+    height: 100px;
+    background: cornflowerblue;
+
+}
+
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.6s;
+  margin-bottom: 15px;
+}
+
+.alert {
+  opacity: 1;
+  transition: opacity 0.6s; /* 600ms to fade out */
+}
+
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.closebtn:hover {
+  color: black;
 }
 </style>
