@@ -3,7 +3,7 @@
 
         <div v-if="showError" class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+            <strong>NOTE!!</strong> There is no user with this ID.
         </div>
 
       <label>ID</label>
@@ -12,12 +12,15 @@
         <input type="date" required v-model="birthday">
         <div class="submit">
         <button>update birthday</button>
+
+        
         </div>
             <div v-if="user" class="user">
-            <h2>UPDATED:</h2>
+            <h2></h2>
             <label class="try">NAME: {{newName}}</label><br>
             <label class="try">BIRTHDAY: {{newBirthday}}</label>
         </div>
+
   </form>
 
 </template>
@@ -50,9 +53,11 @@ export default {
                 this.newBirthday = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
                 this.newName = response.data.person.name;
                 this.user = true;
+                this.showError = false;
             })
             .catch(err => {
                 this.showError = true;
+                this.user = false;
                 console.log(`error:${err}`)
             })
         },

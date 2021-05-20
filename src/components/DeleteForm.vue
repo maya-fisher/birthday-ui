@@ -3,7 +3,7 @@
 
         <div v-if="showError" class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+            <strong>NOTE!!</strong> There is no user with this ID.
         </div>
 
       <label>ID</label>
@@ -13,7 +13,7 @@
         </div>
 
         <div v-if="user" class="user">
-            <h2>DELETED:</h2>
+            <h2></h2>
             <label class="try">NAME: {{newName}}</label><br>
             <label class="try">BIRTHDAY: {{newBirthday}}</label>
         </div>
@@ -43,10 +43,12 @@ export default {
                 let d = new Date(parseInt(this.newBirthday));
                 this.newBirthday = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
                 this.newName = response.data.person.name;
-                this.user = true;            
+                this.user = true; 
+                this.showError = false;
             })
             .catch(err => {
                 this.showError = true;
+                this.user = false;
                 console.log(`error:${err}`)
             })
         },
@@ -57,25 +59,6 @@ export default {
 
 <style>
 
-
-
-
-.user {
-    background: lightseagreen;
-    width: 130;
-    margin:50px auto;
-    text-align: left;
-    padding: 40px;
-    border-radius: 10px;
-    
-}
-
-.user:hover {
-    background: rgb(28, 153, 147);
-}
-.user label {
-    color: #2c3e50;
-}
 
 
 </style>

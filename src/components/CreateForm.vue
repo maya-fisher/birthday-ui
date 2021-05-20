@@ -4,7 +4,7 @@
 
         <div v-if="showError" class="alert">
             <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span> 
-            <strong>Danger!</strong> Indicates a dangerous or potentially negative action.
+            <strong>NOTE!</strong> This ID already exists in the system. try again.
         </div>
 
         <label>Name</label>
@@ -18,12 +18,14 @@
         </div>
 
         <div v-if="user" class="user">
-            <h2>NEW BIRTHDAY</h2>
+            <h2>CREATED NEW BIRTHDAY</h2>
             <label class="try">NAME: {{newName}}</label><br>
             <label class="try">BIRTHDAY: {{newBirthday}}</label>
         </div>
 
   </form>
+
+
 
 </template>
 
@@ -56,9 +58,11 @@ export default {
                 this.newBirthday = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
                 this.newName = response.data.person.name;
                 this.user = true;
+                this.showError = false;
             })
             .catch(err => {
                 this.showError = true;
+                this.user = false;
                 console.log(`error:${err}`)
             })
 
@@ -71,7 +75,7 @@ export default {
 <style>
 
 .user {
-    background: lightseagreen;
+    background: #f8de7e;
     width: 130;
     margin:50px auto;
     text-align: left;
@@ -80,21 +84,20 @@ export default {
     
 }
 
-.user:hover {
-    background: rgb(28, 153, 147);
-}
+
 .user label {
     color: #2c3e50;
 }
 
-
-form {
+form {    
     width: 270px;
-    margin:-50px auto;
+    margin:-290px auto;
     text-align: left;
     padding: 40px;
     border-radius: 10px;
 }
+
+
 
 label {
     color: #aaa;
@@ -121,7 +124,7 @@ input {
 }
 
 .submit button {
-    background: #0b6dff;
+    background: #ff7f50;
     border: 0;
     padding: 10px 20px;
     margin-top: 20px;

@@ -1,39 +1,42 @@
 <template>
   <h1> {{title}} </h1>
 
-  <div id="main">
+    <div id="main">
 
     <div id="buttonsDiv">
       <button class="button" @click.left="toggleCreate"><span>create page </span></button>
       <button class="button" @click.left="toggleDelete"><span>delete page </span></button>
       <button class="button" @click.left="toggleGet"><span>get page </span></button>
       <button class="button" @click.left="toggleUpdate"><span>update page </span></button>
-
     </div>
+
 
     <div class="createDiv" v-if="showCreatePage">
       <Create>
       </Create>
     </div>
-    
-    <div v-if="showDeletePage">
+
+    <div class="createDiv" v-if="showDeletePage">
       <DeleteForm>
       </DeleteForm>
     </div>
 
-    <div v-if="showGetPage">
+    <div class="createDiv" v-if="showGetPage">
       <GetForm>
       </GetForm>
     </div>
 
-    <div v-if="showUpdatePage">
+    <div class="createDiv" v-if="showUpdatePage">
       <UpdateForm>
       </UpdateForm>
     </div>
 
+
   </div>
 
+
 </template>
+
 
 <script>
 
@@ -59,18 +62,30 @@ export default {
   methods: {
 
     toggleCreate() {
+      this.showGetPage = false;
+      this.showDeletePage = false;
+      this.showUpdatePage = false;
       this.showCreatePage = !this.showCreatePage
     },
 
     toggleGet() {
+      this.showCreatePage = false;
+      this.showDeletePage = false;
+      this.showUpdatePage = false;
       this.showGetPage = !this.showGetPage
     },
 
     toggleDelete() {
+      this.showUpdatePage = false;
+      this.showCreatePage = false;
+      this.showGetPage = false;
       this.showDeletePage = !this.showDeletePage
     },
 
     toggleUpdate() {
+      this.showCreatePage = false;
+      this.showGetPage = false;
+      this.showDeletePage = false;
       this.showUpdatePage = !this.showUpdatePage
     }
 
@@ -94,9 +109,9 @@ h1 {
   padding-bottom: 10px;
 }
 
-#main {
-  display: flex;
-  flex-direction: row;
+
+.createDiv {
+  height: 430px;
 }
 
 #buttonsDiv {
@@ -106,7 +121,7 @@ h1 {
 
 #buttonsDiv button {
   border-radius: 4px;
-  background-color: #0b6dff;
+  background-color: #ffb3de;
   border: none;
   color: #FFFFFF;
   text-align: center;
