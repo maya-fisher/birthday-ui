@@ -4,10 +4,11 @@
     <div id="main">
 
     <div id="buttonsDiv">
-      <button class="button" @click.left="toggleCreate"><span>create page </span></button>
-      <button class="button" @click.left="toggleDelete"><span>delete page </span></button>
-      <button class="button" @click.left="toggleGet"><span>get page </span></button>
-      <button class="button" @click.left="toggleUpdate"><span>update page </span></button>
+      <button class="button" @click.left="toggleCreate"><span>create new birthday </span></button>
+      <button class="button" @click.left="toggleDelete"><span>delete birthday </span></button>
+      <button class="button" @click.left="toggleGet"><span>find birthday </span></button>
+      <button class="button" @click.left="toggleUpdate"><span>update birthday </span></button>
+      <button class="button" @click.left="toggleUpdateName"><span>update name </span></button>
     </div>
 
 
@@ -31,6 +32,10 @@
       </UpdateForm>
     </div>
 
+    <div class="createDiv" v-if="showUpdateNamePage">
+      <UpdateNameForm>
+      </UpdateNameForm>
+    </div>
 
   </div>
 
@@ -44,11 +49,12 @@ import Create from './components/CreateForm.vue'
 import GetForm from './components/GetForm.vue'
 import DeleteForm from './components/DeleteForm.vue'
 import UpdateForm from './components/UpdateForm.vue'
+import UpdateNameForm from './components/UpdateNameForm'
 const axios = require('axios').default;
 
 export default {
   name: 'App',
-  components: { Create, GetForm, DeleteForm, UpdateForm}, 
+  components: { Create, GetForm, DeleteForm, UpdateForm, UpdateNameForm }, 
   data() {
     return {
       title: 'BIRTHDAY SERVICE',
@@ -57,6 +63,7 @@ export default {
       showGetPage: false,
       showDeletePage: false,
       showUpdatePage: false,
+      showUpdateNamePage: false,
     }
   },
   methods: {
@@ -65,6 +72,7 @@ export default {
       this.showGetPage = false;
       this.showDeletePage = false;
       this.showUpdatePage = false;
+      this.showUpdateNamePage = false;
       this.showCreatePage = !this.showCreatePage
     },
 
@@ -72,6 +80,7 @@ export default {
       this.showCreatePage = false;
       this.showDeletePage = false;
       this.showUpdatePage = false;
+      this.showUpdateNamePage = false;
       this.showGetPage = !this.showGetPage
     },
 
@@ -79,6 +88,7 @@ export default {
       this.showUpdatePage = false;
       this.showCreatePage = false;
       this.showGetPage = false;
+      this.showUpdateNamePage = false;
       this.showDeletePage = !this.showDeletePage
     },
 
@@ -86,7 +96,16 @@ export default {
       this.showCreatePage = false;
       this.showGetPage = false;
       this.showDeletePage = false;
+      this.showUpdateNamePage = false;
       this.showUpdatePage = !this.showUpdatePage
+    },
+
+    toggleUpdateName() {
+      this.showCreatePage = false;
+      this.showGetPage = false;
+      this.showDeletePage = false;
+      this.showUpdatePage = false;
+      this.showUpdateNamePage = !this.showUpdateNamePage
     }
 
   }
