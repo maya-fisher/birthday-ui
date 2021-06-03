@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api-gateway-deployment
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: birthday
+  template:
+    metadata:
+      labels:
+        app: birthday
+    spec:
+      containers:
+      - name: birthday
+        image: drivehub.azurecr.io/meateam/birthday-ui
+        ports:
+        - containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: birthday-service
+spec:
+  selector:
+    app: birthdayService
+  ports:
+    - protocol: TCP
+      port: 8082
+      targetPort: 80

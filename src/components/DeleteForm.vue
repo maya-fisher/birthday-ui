@@ -12,16 +12,19 @@
         <button>delete birthday</button>
         </div>
 
+  </form>
+
         <div v-if="user" class="user">
             <h2></h2>
             <label class="try">NAME: {{newName}}</label><br>
             <label class="try">BIRTHDAY: {{newBirthday}}</label>
         </div>
-  </form>
 
 </template>
 
 <script>
+
+import { BASE_URL } from '../App'
 
 const axios = require('axios').default;
 
@@ -37,7 +40,7 @@ export default {
     },
     methods: {
         handelSubmit() {
-            let response = axios.delete(`http://localhost:6060/birthday/${this.id}`)
+            let response = axios.delete(`${BASE_URL}/birthday/${this.id}`)
             .then(response => {
                 this.newBirthday = response.data.person.birthday;
                 let d = new Date(parseInt(this.newBirthday));

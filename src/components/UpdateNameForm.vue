@@ -12,22 +12,21 @@
       <input type="text" required v-model="name">        
         <div class="submit">
         <button>update birthday</button>
-
-        
         </div>
-            <div v-if="user" class="user">
-            <h2></h2>
+            
+
+  </form>
+       <div v-if="user" class="user">
             <label class="try">NAME: {{newName}}</label><br>
             <label class="try">BIRTHDAY: {{newBirthday}}</label>
         </div>
-
-  </form>
 
 </template>
 
 <script>
 
 const axios = require('axios').default;
+import { BASE_URL } from '../App'
 
 export default {
     data() {
@@ -44,7 +43,7 @@ export default {
         handelSubmit() {
             console.log(this.id, this.name)
 
-            axios.put(`http://localhost:6060/birthday/${this.id}`, {"name": this.name}).then(response => {
+            axios.put(`${BASE_URL}/birthday/${this.id}`, {"name": this.name}).then(response => {
                 this.newBirthday = response.data.person.birthday;
                 let d = new Date(parseInt(this.newBirthday));
                 this.newBirthday = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;

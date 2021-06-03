@@ -17,13 +17,13 @@
         <button id="createButton">create birthday</button>
         </div>
 
-        <div v-if="user" class="user">
-            <h2>CREATED NEW BIRTHDAY</h2>
-            <label class="try">NAME: {{newName}}</label><br>
-            <label class="try">BIRTHDAY: {{newBirthday}}</label>
-        </div>
-
   </form>
+
+    <div v-if="user" class="user">
+        <h2>CREATED NEW BIRTHDAY</h2>
+        <label class="try">NAME: {{newName}}</label><br>
+        <label class="try">BIRTHDAY: {{newBirthday}}</label>
+    </div>
 
 
 
@@ -31,7 +31,10 @@
 
 <script>
 
+import { BASE_URL } from '../App'
+
 const axios = require('axios').default;
+import { baseURL } from "@/config";
 
 export default {
     data() {
@@ -51,7 +54,8 @@ export default {
             let newDate = new Date( dateArray[0], dateArray[1] - 1, dateArray[2]);
             let timestamp = Math.floor(newDate.getTime()/1000);
             let user = {name: this.name, userId: this.id, birthday: timestamp};
-            let response = axios.post(`http://localhost:6060/birthday`, user)
+            console.log(`${baseURL}/birthday`);
+            let response = axios.post(`${BASE_URL}/birthday`, user)
             .then(response => {
                 this.newBirthday = response.data.person.birthday;
                 let d = new Date(parseInt(this.newBirthday));
@@ -75,11 +79,12 @@ export default {
 <style>
 
 .user {
-    background: #f8de7e;
-    width: 130;
+    background: lightblue;
+    width: 230px;
     margin:50px auto;
     text-align: left;
     padding: 40px;
+    margin-top: 17%;
     border-radius: 10px;
     
 }
@@ -95,8 +100,8 @@ form {
     text-align: left;
     padding: 40px;
     border-radius: 10px;
+    background-color:whitesmoke;
 }
-
 
 
 label {

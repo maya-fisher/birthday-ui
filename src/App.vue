@@ -1,4 +1,5 @@
 <template>
+
   <h1> {{title}} </h1>
 
     <div id="main">
@@ -44,6 +45,9 @@
 
 
 <script>
+
+export const BASE_URL = "http://localhost:8081"
+
 
 import Create from './components/CreateForm.vue'
 import GetForm from './components/GetForm.vue'
@@ -113,6 +117,11 @@ export default {
 </script>
 
 <style>
+
+
+body {
+  background-image: url("./assets/confetti-3.gif");
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;

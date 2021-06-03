@@ -12,22 +12,24 @@
         <input type="date" required v-model="birthday">
         <div class="submit">
         <button>update birthday</button>
+        </div>
 
-        
-        </div>
-            <div v-if="user" class="user">
-            <h2></h2>
-            <label class="try">NAME: {{newName}}</label><br>
-            <label class="try">BIRTHDAY: {{newBirthday}}</label>
-        </div>
+
 
   </form>
+
+    <div v-if="user" class="user">
+        <h2>CREATED NEW BIRTHDAY</h2>
+        <label class="try">NAME: {{newName}}</label><br>
+        <label class="try">BIRTHDAY: {{newBirthday}}</label>
+    </div>
 
 </template>
 
 <script>
 
 const axios = require('axios').default;
+import { BASE_URL } from '../App'
 
 export default {
     data() {
@@ -47,7 +49,7 @@ export default {
             let newDate = new Date( dateArray[0], dateArray[1] - 1, dateArray[2]);
             let timestamp = Math.floor(newDate.getTime()/1000);
 
-            axios.put(`http://localhost:6060/birthday/${this.id}`, {"birthday": timestamp}).then(response => {
+            axios.put(`${BASE_URL}/birthday/${this.id}`, {"birthday": timestamp}).then(response => {
                 this.newBirthday = response.data.person.birthday;
                 let d = new Date(parseInt(this.newBirthday));
                 this.newBirthday = `${d.getDate()}-${d.getMonth()+1}-${d.getFullYear()}`;
